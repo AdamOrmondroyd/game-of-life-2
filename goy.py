@@ -28,6 +28,8 @@ BEACON_2 = np.array([[0, 0, 0, 0, 0, 0],
                     [0, 0, 0, 1, 1, 0],
                     [0, 0, 0, 1, 1, 0],
                     [0, 0, 0, 0, 0, 0]])
+                    
+GOY_MASK = np.array([[1, 1, 1], [1, 0, 1], [1, 1, 1]])
 
 def step(cells):
     """
@@ -35,8 +37,7 @@ def step(cells):
     """
     
     # Count neighbours using convolution
-    goy_mask = np.array([[1,1,1],[1,0,1],[1,1,1]])
-    count = convolve2d(cells, goy_mask, mode='same', boundary='wrap')
+    count = convolve2d(cells, GOY_MASK, mode='same', boundary='wrap')
     
     newcells = np.where(cells==1,np.where((count>1),np.where(count<4,1,0),0),np.where(count==3,1,0))
     
